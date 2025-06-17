@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annamalai Tea Stall</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            overflow-x: hidden;
+        }
+
+        /* Sticky Navbar */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: #ff9800;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            margin: 0 15px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #e68900;
+        }
+
+        /* Hero Section */
+        header {
+            background: linear-gradient(45deg, #ff9800, #f44336);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+            background-size: cover;
+        }
+
+        header h1 {
+            font-size: 60px;
+            margin: 0;
+            letter-spacing: 2px;
+            color: white;
+            text-shadow: 0px 0px 15px rgba(255, 0, 0, 0.8), 0px 0px 25px rgba(255, 0, 0, 0.6);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        header p {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0px 0px 15px rgba(0, 255, 0, 0.8), 0px 0px 25px rgba(0, 255, 0, 0.6);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        /* Glow Animation for Header */
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 25px rgba(255, 0, 0, 0.6);
+            }
+            100% {
+                text-shadow: 0 0 30px rgba(255, 0, 0, 1), 0 0 50px rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        /* Menu Section */
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 40px;
+            background-color: #fff;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item {
+            background: #4CAF50;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+            background-color: #45a049;
+        }
+
+        .menu-item span {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .menu-item input {
+            width: 80px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Cart Section */
+        .cart {
+            padding: 30px;
+            margin: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Payment Section */
+        .payment {
+            padding: 30px;
+            margin: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .payment button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .payment button:hover {
+            background-color: #45a049;
+        }
+
+        /* Chatbox Styling */
+        #chatbox {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #chatbox:hover {
+            transform: scale(1.1);
+            background-color: #45a049;
+        }
+
+        /* Chat Window */
+        #chat-window {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            overflow-y: scroll;
+            z-index: 999;
+            padding: 10px;
+        }
+
+        .chat-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-body {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .chat-input input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .chat-input button {
+            width: 15%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #slide-button {
+    cursor: grab;
+}
+
+
+        .chat-message {
+            background-color: #f0f0f0;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background-color: #4CAF50;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background-color: #e1e1e1;
+            color: black;
+            align-self: flex-start;
+        }
+
+        .close-btn {
+            font-size: 18px;
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#contact">Contact</a>
+</nav>
+
+<!-- Hero Section -->
+<header>
+    <h1>Annamalai Tea Stall</h1>
+    <p>Your Favorite Tea Stall, Serving Happiness in Every Sip!</p>
+</header>
+
+<!-- Menu Section -->
+<!-- Add inside <head> -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
+<!-- Replace the current Menu Section -->
+<div class="menu" id="menu">
+    <div class="menu-item">
+        <h3>Tea</h3>
+        <span>₹20</span>
+        <div style="margin-top: 10px;">
+            <button onclick="changeQty('tea', -1)">−</button>
+            <span id="tea-qty">0</span>
+            <button onclick="changeQty('tea', 1)">+</button>
+        </div>
+    </div>
+    <div class="menu-item">
+        <h3>Coffee</h3>
+        <span>₹30</span>
+        <div style="margin-top: 10px;">
+            <button onclick="changeQty('coffee', -1)">−</button>
+            <span id="coffee-qty">0</span>
+            <button onclick="changeQty('coffee', 1)">+</button>
+        </div>
+    </div>
+    <div class="menu-item">
+        <h3>Snacks</h3>
+        <span>₹50</span>
+        <div style="margin-top: 10px;">
+            <button onclick="changeQty('snacks', -1)">−</button>
+            <span id="snacks-qty">0</span>
+            <button onclick="changeQty('snacks', 1)">+</button>
+        </div>
+    </div>
+</div>
+
+<!-- Replace Payment Section with Slide to Pay -->
+<div class="payment">
+    <div id="slider" style="position: relative; width: 300px; height: 50px; background: #ccc; border-radius: 25px; margin: 20px auto;">
+    <div id="slide-button"
+         style="position: absolute; width: 50px; height: 50px; background: #4CAF50; border-radius: 50%; top: 0; left: 0; cursor: grab; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+        ➤
+    </div>
+    <span style="position: absolute; left: 60px; top: 50%; transform: translateY(-50%); font-weight: bold;">Slide to Pay</span>
+</div>
+
+</div>
+
+<!-- JS (Add to existing <script> block) -->
+<script>
+let cart = { tea: 0, coffee: 0, snacks: 0 };
+let paymentDone = false;
+
+function changeQty(item, delta) {
+    if (paymentDone) return;
+    cart[item] = Math.max(0, cart[item] + delta);
+    document.getElementById(`${item}-qty`).innerText = cart[item];
+}
+
+function getTotalAmount() {
+    return cart.tea * 20 + cart.coffee * 30 + cart.snacks * 50;
+}
+
+function processPayment() {
+    const total = getTotalAmount();
+    if (total === 0) {
+        alert("Please add some items.");
+        slideButton.style.left = "0px";
+        return;
+    }
+
+    db.collection("orders").add({
+        tea: cart.tea,
+        coffee: cart.coffee,
+        snacks: cart.snacks,
+        total: total,
+        timestamp: new Date()
+    }).then(() => {
+        const upiUrl = `upi://pay?pa=devak9391-1@okicici&pn=Annamalai+Tea+Stall&mc=1234&tid=${Date.now()}&amount=${total}&cu=INR`;
+        window.location.href = upiUrl;
+
+        paymentDone = true;
+        slideButton.innerText = "✓";
+        slideButton.style.cursor = "not-allowed";
+        slideButton.style.left = (slider.offsetWidth - slideButton.offsetWidth) + "px";
+    }).catch((error) => {
+        alert("Failed to store order. Try again.");
+        console.error("Firebase Error:", error);
+        slideButton.style.left = "0px";
+    });
+}
+
+// --- Slide to Pay ---
+const slider = document.getElementById("slider");
+const slideButton = document.getElementById("slide-button");
+
+let isDragging = false;
+
+slideButton.addEventListener("mousedown", (e) => {
+    if (paymentDone) return;
+
+    isDragging = true;
+    document.onmousemove = (e) => {
+        if (!isDragging) return;
+        const rect = slider.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width - slideButton.offsetWidth));
+        slideButton.style.left = x + "px";
+    };
+
+    document.onmouseup = () => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        const x = parseInt(slideButton.style.left);
+        if (x >= slider.offsetWidth - slideButton.offsetWidth - 10) {
+            processPayment();
+        } else {
+            slideButton.style.left = "0px";
+        }
+
+        document.onmousemove = null;
+        document.onmouseup = null;
+    };
+});
+
+// Optional: Hide slider on non-mobile
+if (!/Mobi|Android/i.test(navigator.userAgent)) {
+    slider.style.display = "none";
+    document.querySelector('.payment').innerHTML = "<p>Payment available only on mobile devices.</p>";
+}
+
+</script>
+</body>
+</html>
