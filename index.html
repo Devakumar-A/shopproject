@@ -280,6 +280,23 @@
             text-align: center;
             font-size: 18px;
         }
+        .menu-item div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-item button {
+    padding: 5px 10px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffffff;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
     </style>
 </head>
 <body>
@@ -363,6 +380,7 @@
 let cart = { tea: 0, coffee: 0, snacks: 0 };
 let paymentDone = false;
 
+// --- Increment/Decrement Logic ---
 function changeQty(item, delta) {
     if (paymentDone) return;
     cart[item] = Math.max(0, cart[item] + delta);
@@ -395,6 +413,7 @@ function processPayment() {
         slideButton.innerText = "✓";
         slideButton.style.cursor = "not-allowed";
         slideButton.style.left = (slider.offsetWidth - slideButton.offsetWidth) + "px";
+        slideButton.style.pointerEvents = "none";
     }).catch((error) => {
         alert("Failed to store order. Try again.");
         console.error("Firebase Error:", error);
@@ -402,16 +421,17 @@ function processPayment() {
     });
 }
 
-// --- Slide to Pay ---
+// --- Slide to Pay Support: Mouse + Touch ---
 const slider = document.getElementById("slider");
 const slideButton = document.getElementById("slide-button");
 
 let isDragging = false;
 
+// Mouse events (desktop)
 slideButton.addEventListener("mousedown", (e) => {
     if (paymentDone) return;
-
     isDragging = true;
+
     document.onmousemove = (e) => {
         if (!isDragging) return;
         const rect = slider.getBoundingClientRect();
@@ -436,12 +456,36 @@ slideButton.addEventListener("mousedown", (e) => {
     };
 });
 
-// Optional: Hide slider on non-mobile
-if (!/Mobi|Android/i.test(navigator.userAgent)) {
-    slider.style.display = "none";
-    document.querySelector('.payment').innerHTML = "<p>Payment available only on mobile devices.</p>";
-}
+// Touch events (mobile)
+slideButton.addEventListener("touchstart", (e) => {
+    if (paymentDone) return;
+    isDragging = true;
 
+    document.ontouchmove = (e) => {
+        if (!isDragging) return;
+        const touch = e.touches[0];
+        const rect = slider.getBoundingClientRect();
+        let x = touch.clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width - slideButton.offsetWidth));
+        slideButton.style.left = x + "px";
+    };
+
+    document.ontouchend = () => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        const x = parseInt(slideButton.style.left);
+        if (x >= slider.offsetWidth - slideButton.offsetWidth - 10) {
+            processPayment();
+        } else {
+            slideButton.style.left = "0px";
+        }
+
+        document.ontouchmove = null;
+        document.ontouchend = null;
+    };
+});
 </script>
+
 </body>
 </html>
